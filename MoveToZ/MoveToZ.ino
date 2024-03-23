@@ -16,8 +16,8 @@
 
 void setup() {
 
-  stepper1.setMaxSpeed(1000);
-  stepper1.setAcceleration(1000);
+  stepper1.setMaxSpeed(50000);
+  stepper1.setAcceleration(10000);
 //  stepper2.setMaxSpeed(200);
 //  stepper2.setAcceleration(100);
 //  stepper3.setMaxSpeed(200);
@@ -40,18 +40,19 @@ void setup() {
 void loop() {
 
     // Move to position 0
-  stepper1.move(1000);
+  stepper1.move(50);
   // stepper1.setSpeed(1000);
   stepper1.runToPosition();
  // stepper1.runToNewPosition(-1000);
-  delay(1000);
+  //delay(1000);
 
   // Move to position 20000
-  stepper1.move(-1000);
+  stepper1.move(-100);
   // stepper1.setSpeed(-1000);
   stepper1.runToPosition();
+ 
  // stepper1.runToNewPosition(1000);
-  delay(1000);
+ // delay(1000);
 
   // Move back to position 100
   //stepper1.moveTo(100);
