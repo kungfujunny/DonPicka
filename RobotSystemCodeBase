@@ -7,6 +7,10 @@ Servo Servo2;
 Servo Servo3;
 Servo Servo4;
 
+bool xLocationStatus = false;
+bool yLocationStatus = false;
+bool zLocationStatus = false;
+
 void setup() {
   Serial.begin(9600);
 
@@ -16,27 +20,90 @@ void setup() {
   Servo3.attach(3);
   Servo4.attach(4);
   //Servo2 and Servo3 are opposite pairs for Joint2
-
-
-
 }
 
 void loop() {
+  /*
   int PosNema1 = 0;
   //Nema1 is for X axis (40x40 Rail)
   int PosNema2 = 0;
   //Nema2 is for Carriage. 0 = Centre of Carriage
+  */
 
-  int input1;
-  
-  if(Serial.available()){
-    input1 = Serial.read();
-    input1-48;
 
-  Serial.print("this is the ");
-  Serial.print(input1);
+  if(!xLocationStatus){
+    int xPosition = xpos();
+    Serial.print("The system will move to X: ");
+    Serial.println(xPosition);
+    xLocationStatus = true;
   }
 
+   if(!yLocationStatus){
+    int yPosition = ypos();
+    Serial.print("The system will move to Y: ");
+    Serial.println(yPosition);
+    yLocationStatus = true;
+  }
 
+  if(!zLocationStatus){
+    int zPosition = zpos();
+    Serial.print("The system will move to Z: ");
+    Serial.println(zPosition);
+    zLocationStatus = true;
+  }
 
 }
+int xpos() {
+  // Ask for the X position
+  Serial.println("Please enter the X position:");
+  // Wait until data is available to read from the Serial Monitor
+  while (Serial.available() == 0) {
+  }
+  // Read the input from the Serial Monitor
+  String input = Serial.readStringUntil('\n');
+  int xPos = 0;
+
+  for (int i = 0; i < input.length(); i++) {
+    if (isdigit(input[i])) {
+      xPos = xPos * 10 + (input[i] - '0');
+    }
+  }
+  return xPos;
+}
+
+int ypos() {
+  // Ask for the X position
+  Serial.println("Please enter the Y position:");
+  // Wait until data is available to read from the Serial Monitor
+  while (Serial.available() == 0) {
+  }
+  // Read the input from the Serial Monitor
+  String input = Serial.readStringUntil('\n');
+  int yPos = 0;
+  
+  for (int i = 0; i < input.length(); i++) {
+    if (isdigit(input[i])) {
+      yPos = yPos * 10 + (input[i] - '0');
+    }
+  }
+  return yPos;
+}
+
+int zpos() {
+  // Ask for the X position
+  Serial.println("Please enter the Z position:");
+  // Wait until data is available to read from the Serial Monitor
+  while (Serial.available() == 0) {
+  }
+  // Read the input from the Serial Monitor
+  String input = Serial.readStringUntil('\n');
+  int zPos = 0;
+  
+  for (int i = 0; i < input.length(); i++) {
+    if (isdigit(input[i])) {
+      zPos = zPos * 10 + (input[i] - '0');
+    }
+  }
+  return zPos;
+}
+
