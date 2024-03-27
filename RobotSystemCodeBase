@@ -1,1 +1,42 @@
-//Group 7 Robotic System Code
+//Group 7: Robotic System Master Codebase
+
+#include <Servo.h>
+
+Servo Servo1;
+Servo Servo2;
+Servo Servo3;
+Servo Servo4;
+
+void setup() {
+  Serial.begin(9600);
+
+  Servo1.attach(1);
+  Servo2.attach(2);
+  //Servo1 and Servo2 are opposite pairs for Joint1
+  Servo3.attach(3);
+  Servo4.attach(4);
+  //Servo2 and Servo3 are opposite pairs for Joint2
+
+
+
+}
+
+void loop() {
+  int PosNema1 = 0;
+  //Nema1 is for X axis (40x40 Rail)
+  int PosNema2 = 0;
+  //Nema2 is for Carriage. 0 = Centre of Carriage
+
+  int input1;
+  
+  if(Serial.available()){
+    input1 = Serial.read();
+    input1-48;
+
+  Serial.print("this is the ");
+  Serial.print(input1);
+  }
+
+
+
+}
