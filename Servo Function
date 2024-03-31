@@ -1,0 +1,37 @@
+#include <Servo.h>
+
+Servo servo1;
+Servo servo2;
+
+void setup() {
+
+  servo1.attach(8);//left
+  servo2.attach(9);
+  servo3.attach(10);//second joint
+  
+}
+
+void loop() {
+
+  servo1.write(0);
+  servo2.write(180);
+  servo3.write(90);
+
+/*
+
+  for(int angle = 0; angle<=90;angle++){
+    servo1.write(angle);
+    int angle2 = 180-angle;
+    servo2.write(angle2);
+    delay(25);
+    if(angle==90){
+      delay(1000);
+    }
+  }
+  /*
+  for(int angle2 = 0;angle2<=75;angle2++){
+    servo2.write(angle2);
+    delay(10);
+  }
+ */
+}
