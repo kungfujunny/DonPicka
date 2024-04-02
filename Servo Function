@@ -22,7 +22,7 @@ void setup() {
   servo3.attach(10);//second joint
 
   
-  stepper1.setMaxSpeed(10l000);
+  stepper1.setMaxSpeed(10000);
   stepper1.setAcceleration(1000);
   stepper2.setMaxSpeed(10000);
   stepper2.setAcceleration(10000);
@@ -48,47 +48,44 @@ void loop() {
   servo2.write(90);
   servo3.write(90);
 
+  stepper2.move(5000);
+  stepper2.runToPosition();
+  
+
+
 
 */
+
   for(int angle = 0; angle<=180;angle++){
     servo1.write(angle);
-   // int comangle = 180-angle;
     servo3.write(angle);
     int angle2 = 180-angle;
     servo2.write(angle2);
-    delay(5);
+    delay(15);
     if(angle==90){
       delay(2000);
       int movement=10000;
-      for(int i=0;i<=5;i++){
-        stepper2.move(movement);
-        stepper2.runToPosition();
-        delay(1000);
-        if (i==0){
-          stepper1.move(5000);
-          stepper1.runToPosition();
-        }
-    }
-    for(int i=0;i<=5;i++){
+      int iteration = 5;
+      for(int i=0;i<=iteration;i++){
         stepper2.move(-movement);
         stepper2.runToPosition();
-        if (i==0){
-          stepper1.move(5000);
-          stepper1.runToPosition();
-        }
-    }
-        delay(2000);
-    }
-    if(angle==0){
-      delay(1000);
-    }
-    if(angle==180){
-      delay(1000);
-    }
-    //delay(100);
+        //delay(1000);
+        if (i==iteration){
+          for(int i=0;i<=iteration;i++){
+            stepper2.move(movement);
+            stepper2.runToPosition();
+            }
+            }
+            }
+            }
+            if (angle ==0){
+              delay(2000);
+            }if (angle ==180){
+              delay(2000);
+            }
+            
   }
-
-//  boolean arjun = true;
+/*
 
   for(int angle = 180; angle>=0;angle--){
     servo1.write(angle);
@@ -114,4 +111,5 @@ void loop() {
     delay(10);
   }
  */
+  
 }
