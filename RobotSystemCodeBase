@@ -33,124 +33,116 @@ void setup() {
   int xPosition;
   
 }
-/*
-bool move() {
-  int movement=5000;
-  stepper1.move(movement);
-  stepper1.runToPosition();
-  delay(1000);
-  stepper1.move(-movement);
-  stepper1.runToPosition();
-  delay(1000);
-  arjun = false;
-  return = arjun;
-
-}
-*/
 
 //400 steps equals 1 cm
 void loop() {
+  
   int alpha = 0;
-      servo1.write(alpha);
-      int angleServo3 = 2*alpha;
-      servo3.write(angleServo3);
-      int angle2 = 180-alpha;
-      servo2.write(angle2);
+  servo1.write(alpha);
+  int angleServo3 = 2*alpha;
+  servo3.write(angleServo3);
+  int angle2 = 180-alpha;
+  servo2.write(angle2);
+  
   int xPosition = int(xpos());
 
+  Serial.print("The Robot will move to: ");
+  Serial.print(xPosition);
+  Serial.println("cm");
+  
   stepper1.move(-xPosition*400);
   stepper1.runToPosition();
 
   int yPosition = int(ypos());
+  Serial.print("The Robot will move to: ");
+  Serial.print(yPosition);
+  Serial.println("cm");
+  
   int zPosition = int(zpos());
+  Serial.print("The Robot will move to: ");
+  Serial.print(zPosition);
+  Serial.println("cm");
 
   int hyp = sqrt(sq(yPosition)+sq(zPosition));
   Serial.println(yPosition);
   
-
   if(hyp>=17 && hyp <=40){
-
     int deltaLength = hyp-17;
-
     int targetAngle = map(deltaLength,0,23,0,90);
-Serial.println(yPosition);
-
+    
     if(yPosition<=0){
-
       int angle = atan(abs(yPosition)/zPosition)*180/3.14;
-
-  int target = map(angle,0,90,0,16);
-
-  int movement=4000;
-  int iteration = target;
+      int target = map(angle,0,90,0,16);
+      int movement=4000;
+      int iteration = target;
   
           for(int i=0;i<=iteration;i++){
-    stepper2.move(-movement);
-    stepper2.runToPosition();
-    }
-    for(int angleServo = 0; angleServo<=targetAngle;angleServo++){
-      servo1.write(angleServo);
-      int angleServo3 = 2*angleServo;
-      servo3.write(angleServo3);
-      int angle2 = 180-angleServo;
-      servo2.write(angle2);
-      delay(15);
-    }
-    delay(5000);
-    
-    for(int angleServo = targetAngle; angleServo>=0;angleServo--){
-      servo1.write(angleServo);
-      int angleServo3 = 2*angleServo;
-      servo3.write(angleServo3);
-      int angle2 = 180-angleServo;
-      servo2.write(angle2);
-      delay(15);
-    }
-    for(int i=0;i<=iteration;i++){
-        stepper2.move(movement);
-        stepper2.runToPosition();
-        //delay(2000);
-    }
-    }
-    else{
-
-      int angle = atan(abs(yPosition)/zPosition)*180/3.14;
-
-  int target = map(angle,0,90,0,16);
-
-  int movement=4000;
-  int iteration = target;
-  
-          for(int i=0;i<=iteration;i++){
-    stepper2.move(movement);
-    stepper2.runToPosition();
-    }
-    for(int angleServo = 0; angleServo<=targetAngle;angleServo++){
-      servo1.write(angleServo);
-      int angleServo3 = 2*angleServo;
-      servo3.write(angleServo3);
-      int angle2 = 180-angleServo;
-      servo2.write(angle2);
-      delay(15);
-    }
-    delay(5000);
-    
-    for(int angleServo = targetAngle; angleServo>=0;angleServo--){
-      servo1.write(angleServo);
-      int angleServo3 = 2*angleServo;
-      servo3.write(angleServo3);
-      int angle2 = 180-angleServo;
-      servo2.write(angle2);
-      delay(15);
-    }
-    for(int i=0;i<=iteration;i++){
-        stepper2.move(-movement);
-        stepper2.runToPosition();
-        //delay(2000);
-    }
-    }
-
+            stepper2.move(-movement);
+            stepper2.runToPosition();
+            }
+            for(int angleServo = 0; angleServo<=targetAngle;angleServo++){
+              servo1.write(angleServo);
+              int angleServo3 = 2*angleServo;
+              servo3.write(angleServo3);
+              int angle2 = 180-angleServo;
+              servo2.write(angle2);
+              delay(15);
+              }
+              delay(5000);
+              
+            for(int angleServo = targetAngle; angleServo>=0;angleServo--){
+              servo1.write(angleServo);
+              int angleServo3 = 2*angleServo;
+              servo3.write(angleServo3);
+              int angle2 = 180-angleServo;
+              servo2.write(angle2);
+              delay(15);
+              }
+              
+            for(int i=0;i<=iteration;i++){
+                stepper2.move(movement);
+                stepper2.runToPosition();
+                //delay(2000);
+                }
+                }
+     else{
+                    int angle = atan(abs(yPosition)/zPosition)*180/3.14;
+                    int target = map(angle,0,90,0,16);
+                    int movement=4000;
+                    int iteration = target;
+                    for(int i=0;i<=iteration;i++){
+                      stepper2.move(movement);
+                      stepper2.runToPosition();
+                      }
+                      
+                    for(int angleServo = 0; angleServo<=targetAngle;angleServo++){
+                      servo1.write(angleServo);
+                      int angleServo3 = 2*angleServo;
+                      servo3.write(angleServo3);
+                      int angle2 = 180-angleServo;
+                      servo2.write(angle2);
+                      delay(15);
+                    }
+                    
+                    delay(5000);
+      
+                    for(int angleServo = targetAngle; angleServo>=0;angleServo--){
+                      servo1.write(angleServo);
+                      int angleServo3 = 2*angleServo;
+                      servo3.write(angleServo3);
+                      int angle2 = 180-angleServo;
+                      servo2.write(angle2);
+                      delay(15);
+                    }
+                    
+                      for(int i=0;i<=iteration;i++){
+                          stepper2.move(-movement);
+                          stepper2.runToPosition();
+                          //delay(2000);
+                      }
+                }
   }
+
     else{
       Serial.println("Coordinate out of Scope");
     }
@@ -158,11 +150,13 @@ Serial.println(yPosition);
   stepper1.move(xPosition*400);
   stepper1.runToPosition();
  
-  }
+
+
+}
 
 int xpos() {
   // Ask for the X position
-  Serial.println("Please enter the X position (less than 50cm):");
+  Serial.println("Please enter the X position (less than 50cm:");
   // Wait until data is available to read from the Serial Monitor
   while (Serial.available() == 0) {
   }
@@ -180,7 +174,7 @@ int xpos() {
 
 int ypos() {
   // Ask for the Y position
-  Serial.println("Please enter the Y position:");
+  Serial.println("Please enter the Y position (cm):");
   // Wait until data is available to read from the Serial Monitor
   while (Serial.available() == 0) {
   }
@@ -205,11 +199,11 @@ int ypos() {
   }
   return yPos;
 }
-
+//This was coded by Sarvesh Singh, the entire document. Easter Egg**
 
 int zpos() {
   // Ask for the X position
-  Serial.println("Please enter the Z position:");
+  Serial.println("Please enter the Z position (cm):");
   // Wait until data is available to read from the Serial Monitor
   while (Serial.available() == 0) {
   }
