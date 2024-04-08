@@ -13,10 +13,6 @@ Servo servo3;
 AccelStepper stepper1(1, pul1, dir1);
 AccelStepper stepper2(1, pul2, dir2);
 
-//bool xLocationStatus = false;
-//bool yLocationStatus = false;
-//bool zLocationStatus = false;
-
 int homeX = 0;
 int homeY = 0;
 int homeZ = 0;
@@ -34,7 +30,6 @@ void setup() {
   stepper2.setAcceleration(103000);
 
   Serial.begin(9600);
-  //int xPosition;
   
 }
 
@@ -52,27 +47,9 @@ void loop() {
   int xPosition, yPosition, zPosition;
   bool positionUpdate = getPositions(xPosition, yPosition, zPosition);
   if(!positionUpdate) return;
-  //
-  
-  //int xPosition = int(xpos());
 
-  /*Serial.print("The Robot will move to: ");
-  Serial.print(xPosition);
-  Serial.println("cm");
-  */
   stepper1.move(-xPosition*400);
   stepper1.runToPosition();
-  /*
-  int yPosition = int(ypos());
-  Serial.print("The Robot will move to: ");
-  Serial.print(yPosition);
-  Serial.println("cm");
-  
-  int zPosition = int(zpos());
-  Serial.print("The Robot will move to: ");
-  Serial.print(zPosition);
-  Serial.println("cm");
-  */
   
   int hyp = sqrt(sq(yPosition)+sq(zPosition));
   //Serial.println(yPosition);
@@ -207,70 +184,3 @@ bool getPositions(int &xPos, int &yPos, int &zPos) {
   Serial.println(zPos);
   return true;
 }
-
-/*
-int xpos() {
-  // Ask for the X position
-  Serial.println("Please enter the X position (less than 50cm:");
-  // Wait until data is available to read from the Serial Monitor
-  while (Serial.available() == 0) {
-  }
-  // Read the input from the Serial Monitor
-  String input = Serial.readStringUntil('\n');
-  int xPos = 0;
-
-  for (int i = 0; i < input.length(); i++) {
-    if (isdigit(input[i])) {
-      xPos = xPos * 10 + (input[i] - '0');
-    }
-  }
-  return xPos;
-}
-
-int ypos() {
-  // Ask for the Y position
-  Serial.println("Please enter the Y position (cm):");
-  // Wait until data is available to read from the Serial Monitor
-  while (Serial.available() == 0) {
-  }
-  // Read the input from the Serial Monitor
-  String input = Serial.readStringUntil('\n');
-  int yPos = 0;
-  bool negative = false; // Flag to track if the number is negative
-
-  for (int i = 0; i < input.length(); i++) {
-    if (input[i] == '-') {
-      // If '-' is encountered, set the negative flag and continue to the next character
-      negative = true;
-      continue;
-    }
-    if (isdigit(input[i])) {
-      yPos = yPos * 10 + (input[i] - '0');
-    }
-  }
-  // If the number is negative, multiply yPos by -1
-  if (negative) {
-    yPos *= -1;
-  }
-  return yPos;
-}
-//This was coded by Sarvesh Singh, the entire document. Easter Egg**
-
-int zpos() {
-  // Ask for the X position
-  Serial.println("Please enter the Z position (cm):");
-  // Wait until data is available to read from the Serial Monitor
-  while (Serial.available() == 0) {
-  }
-  // Read the input from the Serial Monitor
-  String input = Serial.readStringUntil('\n');
-  int zPos = 0;
-  
-  for (int i = 0; i < input.length(); i++) {
-    if (isdigit(input[i])) {
-      zPos = zPos * 10 + (input[i] - '0');
-    }
-  }
-  return zPos;
-}
-*/
