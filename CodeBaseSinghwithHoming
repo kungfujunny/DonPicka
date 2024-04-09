@@ -65,6 +65,17 @@ void loop() {
       xLocationStatus = true;
     }
   }
+   while(Rotation1LocationStatus == false && Rotation2LocationStatus == false){
+    stepper2.move(100)
+    stepper2.runToPosition()
+    xButtonState = digitalRead(xEndStop);
+    if(rotationButtonState1 == HIGH || rotationButtonState2 == HIGH){
+      Rotation1LocationStatus = true;
+      Rotation2LocationStatus =true;
+      stepper2.move(-6400);
+      stepper2.runToPositon;
+    }
+  }
 //This is for the user input
   int xPosition = int(xpos());
   int yPosition = int(ypos());
