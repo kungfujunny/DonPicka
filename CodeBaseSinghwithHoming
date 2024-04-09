@@ -4,6 +4,7 @@
 Servo servo1;
 Servo servo2;
 Servo servo3;
+Servo servo4;
 
 #define dir1 4 // Motor 1 direction, pin 2 doesnt work on MEGA
 #define pul1 3 // Motor 1 pulse 
@@ -20,21 +21,24 @@ bool Rotation2LocationStatus = false;
 
 const int xEndStop = 11;
 int xButtonState = 0;
+
 const int rotationEndStop1 = 12;
 int rotationButtonState1 = 0;
+
 const int rotationEndStop2 = 13;
 int rotationButtonState2 = 0;
 
 
 void setup() {
 
-  servo1.attach(8);//left
-  servo2.attach(9);
-  servo3.attach(10);//second joint
+  servo1.attach(8);
+  servo2.attach(9);//second joint
+  servo3.attach(10);
+  servo4.attach(15);//second joint
 
   pinMode(xEndStop, INPUT);
-  pinMode(yEndStop, INPUT);
-  pinMode(zEndStop, INPUT);
+  pinMode(rotationEndStop1, INPUT);
+  pinMode(rotationEndStop2, INPUT);
 
   stepper1.setMaxSpeed(10000);
   stepper1.setAcceleration(1000);
@@ -51,18 +55,31 @@ void loop() {
 //This is for Servo Starting Position
   int alpha = 0;
   servo1.write(alpha);
-  int angleServo3 = 2*alpha;
-  servo3.write(angleServo3);
   int angle2 = 180-alpha;
   servo2.write(angle2);
+  int angleServo3 = 2*alpha;
+  servo3.write(angleServo3);
+  servo4.write(180-angleServo3);
 
 //This is for homing
   while(xLocationStatus == false){
-    stepper1.move(100)
-    stepper1.runToPosition()
+    stepper1.move(100);
+    stepper1.runToPosition();
     xButtonState = digitalRead(xEndStop);
     if(xButtonState == HIGH){
       xLocationStatus = true;
+    }
+  }
+   while(Rotation1LocationStatus == false && Rotation2LocationStatus == false){
+    stepper2.move(100);
+    stepper2.runToPosition();
+    rotationButtonState1 = digitalRead(rotationEndStop1);
+    rotationButtonState2 = digitalRead(rotationEndStop2);
+    if(rotationButtonState1 == HIGH || rotationButtonState2 == HIGH){
+      Rotation1LocationStatus = true;
+      Rotation2LocationStatus =true;
+      stepper2.move(-6400);
+      stepper2.runToPosition();
     }
   }
 //This is for the user input
@@ -101,6 +118,7 @@ void loop() {
               servo1.write(angleServo);
               int angleServo3 = 2*angleServo;
               servo3.write(angleServo3);
+              servo4.write(180-angleServo3);
               int angle2 = 180-angleServo;
               servo2.write(angle2);
               delay(15);
@@ -111,6 +129,7 @@ void loop() {
               servo1.write(angleServo);
               int angleServo3 = 2*angleServo;
               servo3.write(angleServo3);
+              servo4.write(180-angleServo3);
               int angle2 = 180-angleServo;
               servo2.write(angle2);
               delay(15);
@@ -136,6 +155,7 @@ void loop() {
                       servo1.write(angleServo);
                       int angleServo3 = 2*angleServo;
                       servo3.write(angleServo3);
+                      servo4.write(180-angleServo3);
                       int angle2 = 180-angleServo;
                       servo2.write(angle2);
                       delay(15);
@@ -147,6 +167,7 @@ void loop() {
                       servo1.write(angleServo);
                       int angleServo3 = 2*angleServo;
                       servo3.write(angleServo3);
+                      servo4.write(180-angleServo3);
                       int angle2 = 180-angleServo;
                       servo2.write(angle2);
                       delay(15);
