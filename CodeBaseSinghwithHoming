@@ -14,8 +14,17 @@ AccelStepper stepper1(1, pul1, dir1);
 AccelStepper stepper2(1, pul2, dir2);
 
 bool xLocationStatus = false;
-bool yLocationStatus = false;
-bool zLocationStatus = false;
+bool Rotation1LocationStatus = false;
+bool Rotation2LocationStatus = false;
+
+
+const int xEndStop = 11;
+int xButtonState = 0;
+const int rotationEndStop1 = 12;
+int rotationButtonState1 = 0;
+const int rotationEndStop2 = 13;
+int rotationButtonState2 = 0;
+
 
 void setup() {
 
@@ -23,7 +32,10 @@ void setup() {
   servo2.attach(9);
   servo3.attach(10);//second joint
 
-  
+  pinMode(xEndStop, INPUT);
+  pinMode(yEndStop, INPUT);
+  pinMode(zEndStop, INPUT);
+
   stepper1.setMaxSpeed(10000);
   stepper1.setAcceleration(1000);
   stepper2.setMaxSpeed(10000);
@@ -36,35 +48,40 @@ void setup() {
 
 //400 steps equals 1 cm
 void loop() {
-  
+//This is for Servo Starting Position
   int alpha = 0;
   servo1.write(alpha);
   int angleServo3 = 2*alpha;
   servo3.write(angleServo3);
   int angle2 = 180-alpha;
   servo2.write(angle2);
-  
-  int xPosition = int(xpos());
 
-  Serial.print("The Robot will move to: ");
+//This is for homing
+  while(xLocationStatus == false){
+    stepper1.move(100)
+    stepper1.runToPosition()
+    xButtonState = digitalRead(xEndStop);
+    if(xButtonState == HIGH){
+      xLocationStatus = true;
+    }
+  }
+//This is for the user input
+  int xPosition = int(xpos());
+  int yPosition = int(ypos());
+  int zPosition = int(zpos());
+
+  Serial.print("The Robot will move to:(");
   Serial.print(xPosition);
-  Serial.println("cm");
+  Serial.println("cm, ");
+  Serial.print(yPosition);
+  Serial.println("cm, ");
+  Serial.print(zPosition);
+  Serial.println("cm)");
   
   stepper1.move(-xPosition*400);
   stepper1.runToPosition();
 
-  int yPosition = int(ypos());
-  Serial.print("The Robot will move to: ");
-  Serial.print(yPosition);
-  Serial.println("cm");
-  
-  int zPosition = int(zpos());
-  Serial.print("The Robot will move to: ");
-  Serial.print(zPosition);
-  Serial.println("cm");
-
   int hyp = sqrt(sq(yPosition)+sq(zPosition));
-  Serial.println(yPosition);
   
   if(hyp>=17 && hyp <=40){
     int deltaLength = hyp-17;
